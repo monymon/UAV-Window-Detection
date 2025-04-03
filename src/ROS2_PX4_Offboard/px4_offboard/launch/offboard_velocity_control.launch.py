@@ -76,7 +76,7 @@ def generate_uav_nodes(context):
             namespace='px4_offboard',
             executable='teleoperator',
             name='teleoperator',
-            # prefix='gnome-terminal --'
+            prefix='gnome-terminal --'
         ),
         Node(
             package='px4_offboard',

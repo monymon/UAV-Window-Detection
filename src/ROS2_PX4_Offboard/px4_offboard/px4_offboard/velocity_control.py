@@ -522,14 +522,21 @@ def get_steps(text):
 
 
 def launch_cam_receiver():
-  cam = Camera("/camera", (1920,1080))
+    cam = Camera("/camera", (1920, 1080))
 
-  while True:
-    captured_image = cam.get_next_image()
-    cv2.imshow('Unprocessed Image', captured_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    detect_objects(captured_image)
+    cv2.namedWindow("Object Detection", cv2.WINDOW_NORMAL)
+    cv2.resizeWindow("Object Detection", 400, 300)
+
+    while True:
+        captured_image = cam.get_next_image()
+        processed_image = detect_objects(captured_image)
+
+        cv2.imshow("Object Detection", processed_image)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    cv2.destroyAllWindows() 
 
 
 def main(args=None):
