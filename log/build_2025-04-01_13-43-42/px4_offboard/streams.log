@@ -1,0 +1,60 @@
+[0.740s] Invoking command in '/home/guilhermekohl/UAV-Window-Detection/src/ROS2_PX4_Offboard/px4_offboard': PYTHONPATH=/home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/px4_offboard build --build-base /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build install --record /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/install.log --single-version-externally-managed install_data
+[1.034s] running egg_info
+[1.034s] creating ../../../build/px4_offboard/px4_offboard.egg-info
+[1.035s] writing ../../../build/px4_offboard/px4_offboard.egg-info/PKG-INFO
+[1.035s] writing dependency_links to ../../../build/px4_offboard/px4_offboard.egg-info/dependency_links.txt
+[1.035s] writing entry points to ../../../build/px4_offboard/px4_offboard.egg-info/entry_points.txt
+[1.035s] writing requirements to ../../../build/px4_offboard/px4_offboard.egg-info/requires.txt
+[1.035s] writing top-level names to ../../../build/px4_offboard/px4_offboard.egg-info/top_level.txt
+[1.036s] writing manifest file '../../../build/px4_offboard/px4_offboard.egg-info/SOURCES.txt'
+[1.037s] reading manifest file '../../../build/px4_offboard/px4_offboard.egg-info/SOURCES.txt'
+[1.037s] adding license file 'LICENSE'
+[1.038s] writing manifest file '../../../build/px4_offboard/px4_offboard.egg-info/SOURCES.txt'
+[1.038s] running build
+[1.038s] running build_py
+[1.038s] creating /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build
+[1.038s] creating /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib
+[1.039s] creating /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.039s] copying px4_offboard/processes.py -> /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.039s] copying px4_offboard/visualizer.py -> /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.039s] copying px4_offboard/camera_view.py -> /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.039s] copying px4_offboard/teleoperator.py -> /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.039s] copying px4_offboard/velocity_control.py -> /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.039s] copying px4_offboard/__init__.py -> /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.039s] copying px4_offboard/capture.py -> /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard
+[1.040s] running install
+[1.040s] running install_lib
+[1.041s] creating /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.041s] copying /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard/processes.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.041s] copying /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard/visualizer.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.041s] copying /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard/camera_view.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.041s] copying /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard/teleoperator.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.041s] copying /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard/velocity_control.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.042s] copying /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard/__init__.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.042s] copying /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build/lib/px4_offboard/capture.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard
+[1.042s] byte-compiling /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard/processes.py to processes.cpython-310.pyc
+[1.042s] byte-compiling /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard/visualizer.py to visualizer.cpython-310.pyc
+[1.044s] byte-compiling /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard/camera_view.py to camera_view.cpython-310.pyc
+[1.044s] byte-compiling /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard/teleoperator.py to teleoperator.cpython-310.pyc
+[1.045s] byte-compiling /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard/velocity_control.py to velocity_control.cpython-310.pyc
+[1.048s] byte-compiling /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard/__init__.py to __init__.cpython-310.pyc
+[1.049s] byte-compiling /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard/capture.py to capture.cpython-310.pyc
+[1.049s] running install_data
+[1.049s] creating /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/ament_index
+[1.050s] creating /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/ament_index/resource_index
+[1.050s] creating /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/ament_index/resource_index/packages
+[1.050s] copying resource/px4_offboard -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/ament_index/resource_index/packages
+[1.050s] copying resource/visualize.rviz -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/ament_index/resource_index/packages
+[1.050s] copying package.xml -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/px4_offboard
+[1.050s] copying launch/offboard_velocity_control.launch.py -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/px4_offboard
+[1.050s] copying resource/visualize.rviz -> /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/share/px4_offboard
+[1.050s] running install_egg_info
+[1.052s] Copying ../../../build/px4_offboard/px4_offboard.egg-info to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard-0.0.0-py3.10.egg-info
+[1.053s] running install_scripts
+[1.074s] Installing offboard_control script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.074s] Installing processes script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.074s] Installing teleoperator script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.074s] Installing velocity_control script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.074s] Installing visualizer script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.074s] writing list of installed files to '/home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/install.log'
+[1.100s] Invoked command in '/home/guilhermekohl/UAV-Window-Detection/src/ROS2_PX4_Offboard/px4_offboard' returned '0': PYTHONPATH=/home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages: /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/px4_offboard build --build-base /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build install --record /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/install.log --single-version-externally-managed install_data

@@ -1,31 +1,25 @@
 # Descrição do projeto
 
-Esse sistema executa uma simulação de controle de múltiplos drones.
-É possível controlar os drones em tempo de execução por teclado ou especificar uma missão (trajeto passando por coordenadas específicas).
-A última versão conta com um sistema anticolisão para drones não se chocarem com objetos estáticos (usando um LiDAR) ou com outros drones (através do compartilhamento da posição dos drones entre si).
-Pretende-se expandir o projeto a fim de incluir aprendizado por reforço no planejamento de rotas para evitar colisões.
+Esse sistema executa uma simulação de controle de um drone x500 equipado com uma câmera RGBD.
+É possível controlar o drone em tempo de execução por teclado ou especificar uma missão (trajeto passando por coordenadas específicas).
+As imagens capturadas pela câmera são eviadas para uma rede neural que identifica se há janelas e onde elas estão.
 
 # Como utilizar o projeto
 
 ## Configuração da toolchain
 
-Os passos de instalação aqui descritos são voltados e foram testados em um sistema Ubuntu 22.04 LTS.
+Os passos de instalação são voltados para um sistema Ubuntu 22.04 LTS, onde foram feitos os testes.
 A documentação oficial recomenda que esse seja o sistema utilizado.
 
 ### Avisos
 
-A qualquer momento que haja um problema, certifique-se de que a seção [**# Problemas comuns**](#problemas-comuns) não cobre o seu erro como um dos primeiros passos de troubleshooting.
+Sempre que houver um problema, certifique-se de que a seção [**# Problemas comuns**](#problemas-comuns) não cobre o seu erro como um dos primeiros passos de troubleshooting.
 
 Recomenda-se a utilização de um sistema limpo e destrutível para o desenvolvimento do projeto, já que alguns passos de instalação neste guia podem ser destrutivos.
 Uma alternativa é utilizar uma máquina virual, mas a divisão de recursos pode ser um problema.
 Caso queira utilizar mas nunca tenha instalado uma máquina virtual anteriormente, recomendo assistir a [este curto vídeo](https://www.youtube.com/watch?v=nvdnQX9UkMY).
 
 ### Versão correta do Python
-
-O Python é uma ferramenta notória pela baixa *backward compatibility*.
-Perdi muitas horas por culpa de versões do Python e de pacotes *builtin* conflitantes.
-Talvez exista alguma outra forma melhor de resolver o problema, pois a solução presente a seguir não é ideal.
-Recomenda-se seguir os passos a seguir à risca caso não tenha certeza do que está fazendo.
 
 Certifique-se de que a versão de `python3` resolvido pelo `PATH` é o Python 3.10.
 
@@ -58,6 +52,7 @@ até o comando `sudo apt upgrade` (inclusive) na seção `Install ROS 2 packages
 Esse processo vai demorar, mas geralmente não precisa de supervisão humana.
 3. Instale o `ros-dev-tools` presente no guia.
 
+Teste a instalação do ROS 
 Depois disso, não é necessário prosseguir no guia de instalação. 
 
 ### Setup do ROS
@@ -76,6 +71,15 @@ Agora basta abrir um novo terminal ou executar o *script* no terminal atual.
 Lembrando que essa adição ao `~/.bashrc` pode causar lentidão ao abrir uma nova instância do terminal.
 Para mitigar esse problema, pode-se optar por apenas utilizar a função [`setros`](#setros) do [`macros.bash`](./macros.bash), explicado mais adiante na seção [# macros.bash](#macrosbash).
 
+### Testar a instalação do ROS
+
+Ainda na documentação, vá em `Try some examples` e siga os passos do exemplo `Talker-listener`.
+Basta rodar os dois scripts, cada um em um terminal diferente.
+
+No primeiro terminal deve aparecer mensagens como: [INFO] [1743680628.730320099] [talker]: Publishing: 'Hello World: 5'
+
+E no outro: [INFO] [1743680637.530999924] [listener]: I heard: [Hello World: 5]
+
 ### Pacotes Python
 
 A *toolchain* depende de alguns pacotes de Python.
@@ -89,7 +93,9 @@ Note que é necessário ter o `pip` instalado (disponível no *apt*).
 ```sh
 sudo apt install pip # Se não tiver ainda
 
-pip install --user setuptools==58.2.0 empy==3.3.4 kconfiglib jsonschema jinja2 pyros-genmsg
+pip install --user setuptools==58.2.0 empy==3.3.4 kconfiglib jsonschema jinja2 pyros-genmsg opencv-python
+
+sudo apt install python3-gz-msgs10 python3-gz-transport13 # Pacotes de integração ROS-Gazebo importados no código
 ```
 
 ### Micro DDS
@@ -128,7 +134,7 @@ Alternativamente, pode-se alterar o script
 [`$REPO/src/ROS2_PX4_Offboard/px4_offboard/px4_offboard/processes.py`](./src/ROS2_PX4_Offboard/px4_offboard/px4_offboard/processes.py)
 para utilizar o caminho desejado.
 
-Em seguida, execute o seguinte *script* para instalar o PX4, dentro do diretório baixado:
+Em seguida, dentro do repositório, execute o seguinte *script* para instalar o PX4:
 
 ```sh
 bash Tools/setup/ubuntu.sh
@@ -216,9 +222,8 @@ Esse comando é uma função definida em [macros.bash](./macros.bash)
 
 ## Progamando missões
 
-O arquivo missions.txt contém a descrição da missão que será seguida pelos drones.
-Cada linha do arquivo é destinada para um drone (1ª linha: missão do primeiro drone, 2ª linha: segundo drone, ...).
-A linha é formada por um conjunto de coordenadas.
+O arquivo missions.txt contém a descrição da missão que será seguida pelo drone.
+O arquivo é formado por um conjunto de coordenadas.
 As coordenadas são separadas por ';' enquanto as componentes são separadas por ','.
 Cada componente (x, y e z) é um número de ponto flutuante (de preferência, uma casa decimal).
 Neste repositório há um exemplo de como deve ser o arquivo.
@@ -262,17 +267,6 @@ Realiza o *build* apenas do pacote principal do projeto. Precisa ser executado t
 Também executa [`setup`](#setup).
 
 Mais tecnicamente, faz o *build* apenas do pacote ["px4_offboard"](./src/ROS2_PX4_Offboard/px4_offboard/)
-
-#### `remodel`
-
-Copia os arquivos relacionados ao modelo do drone (tudo que está em [`models/`](./models/)) para o diretório em que o PX4 consegue referenciá-los.
-
-Para modificar o modelo, por exemplo para adicionar um LIDAR, o arquivo do modelo deve ser substituído.
-Isso pode ser feito modificando os arquivos dentro de
-`$PX4_AUTOPILOT/Tools/simulation/gz/models/`.
-Mas para manter o versionamento dos arquivos de modelos, os modelos devem ser alterados em [`models/`](./models/),
-e então copiados para lá.
-O comando `remodel` faz essa cópia
 
 #### `sim`
 

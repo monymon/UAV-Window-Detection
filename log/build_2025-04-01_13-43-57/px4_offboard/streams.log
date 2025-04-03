@@ -1,0 +1,26 @@
+[0.900s] Invoking command in '/home/guilhermekohl/UAV-Window-Detection/src/ROS2_PX4_Offboard/px4_offboard': AMENT_PREFIX_PATH=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs LD_LIBRARY_PATH=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages:/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/px4_offboard build --build-base /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build install --record /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/install.log --single-version-externally-managed install_data
+[1.274s] running egg_info
+[1.274s] writing ../../../build/px4_offboard/px4_offboard.egg-info/PKG-INFO
+[1.274s] writing dependency_links to ../../../build/px4_offboard/px4_offboard.egg-info/dependency_links.txt
+[1.275s] writing entry points to ../../../build/px4_offboard/px4_offboard.egg-info/entry_points.txt
+[1.275s] writing requirements to ../../../build/px4_offboard/px4_offboard.egg-info/requires.txt
+[1.275s] writing top-level names to ../../../build/px4_offboard/px4_offboard.egg-info/top_level.txt
+[1.277s] reading manifest file '../../../build/px4_offboard/px4_offboard.egg-info/SOURCES.txt'
+[1.277s] adding license file 'LICENSE'
+[1.278s] writing manifest file '../../../build/px4_offboard/px4_offboard.egg-info/SOURCES.txt'
+[1.278s] running build
+[1.278s] running build_py
+[1.279s] running install
+[1.279s] running install_lib
+[1.281s] running install_data
+[1.281s] running install_egg_info
+[1.283s] removing '/home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard-0.0.0-py3.10.egg-info' (and everything under it)
+[1.283s] Copying ../../../build/px4_offboard/px4_offboard.egg-info to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages/px4_offboard-0.0.0-py3.10.egg-info
+[1.284s] running install_scripts
+[1.305s] Installing offboard_control script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.305s] Installing processes script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.306s] Installing teleoperator script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.306s] Installing velocity_control script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.306s] Installing visualizer script to /home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/px4_offboard
+[1.306s] writing list of installed files to '/home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/install.log'
+[1.335s] Invoked command in '/home/guilhermekohl/UAV-Window-Detection/src/ROS2_PX4_Offboard/px4_offboard' returned '0': AMENT_PREFIX_PATH=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs LD_LIBRARY_PATH=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/guilhermekohl/UAV-Window-Detection/install/px4_offboard/lib/python3.10/site-packages:/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/px4_offboard build --build-base /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/build install --record /home/guilhermekohl/UAV-Window-Detection/build/px4_offboard/install.log --single-version-externally-managed install_data
