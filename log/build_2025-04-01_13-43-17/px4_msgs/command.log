@@ -1,2 +1,0 @@
-Invoking command in '/home/guilhermekohl/UAV-Window-Detection/build/px4_msgs': /usr/bin/cmake /home/guilhermekohl/UAV-Window-Detection/src/px4_msgs -DCMAKE_INSTALL_PREFIX=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs
-Invoked command in '/home/guilhermekohl/UAV-Window-Detection/build/px4_msgs' returned '1': /usr/bin/cmake /home/guilhermekohl/UAV-Window-Detection/src/px4_msgs -DCMAKE_INSTALL_PREFIX=/home/guilhermekohl/UAV-Window-Detection/install/px4_msgs
