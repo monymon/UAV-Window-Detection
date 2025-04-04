@@ -525,18 +525,28 @@ def launch_cam_receiver():
     cam = Camera("/camera", (1920, 1080))
 
     cv2.namedWindow("Object Detection", cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("Object Detection", 400, 300)
+    cv2.resizeWindow("Object Detection", 600, 500)
+
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    output_path = "output.mp4"
+    fps = 30
+    frame_size = (1920, 1080)
+
+    video_writer = cv2.VideoWriter(output_path, fourcc, fps, frame_size)
 
     while True:
         captured_image = cam.get_next_image()
         processed_image = detect_objects(captured_image)
+
+        video_writer.write(processed_image)
 
         cv2.imshow("Object Detection", processed_image)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    cv2.destroyAllWindows() 
+    video_writer.release()
+    cv2.destroyAllWindows()
 
 
 def main(args=None):

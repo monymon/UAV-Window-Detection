@@ -16,3 +16,6 @@ __pycache__/
 *.swo
 *.swn
 *~
+
+# Ignore videos
+tests/
