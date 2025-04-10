@@ -52,7 +52,8 @@ até o comando `sudo apt upgrade` (inclusive) na seção `Install ROS 2 packages
 Esse processo vai demorar, mas geralmente não precisa de supervisão humana.
 3. Instale o `ros-dev-tools` presente no guia.
 
-Teste a instalação do ROS 
+Teste a instalação do ROS, conforme indica o tutorial em `Try some examples`.
+
 Depois disso, não é necessário prosseguir no guia de instalação. 
 
 ### Setup do ROS
@@ -70,15 +71,6 @@ Agora basta abrir um novo terminal ou executar o *script* no terminal atual.
 
 Lembrando que essa adição ao `~/.bashrc` pode causar lentidão ao abrir uma nova instância do terminal.
 Para mitigar esse problema, pode-se optar por apenas utilizar a função [`setros`](#setros) do [`macros.bash`](./macros.bash), explicado mais adiante na seção [# macros.bash](#macrosbash).
-
-### Testar a instalação do ROS
-
-Ainda na documentação, vá em `Try some examples` e siga os passos do exemplo `Talker-listener`.
-Basta rodar os dois scripts, cada um em um terminal diferente.
-
-No primeiro terminal deve aparecer mensagens como: [INFO] [1743680628.730320099] [talker]: Publishing: 'Hello World: 5'
-
-E no outro: [INFO] [1743680637.530999924] [listener]: I heard: [Hello World: 5]
 
 ### Pacotes Python
 
