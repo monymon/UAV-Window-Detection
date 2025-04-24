@@ -56,7 +56,7 @@ def generate_uav_nodes(context):
     if mission_mode == TRUE:
         mission_steps = mission_file.readline()
     else:
-        mission_steps = "0.0,0.0,0.0"
+        mission_steps = "go:0.0,0.0,0.0"
 
     return [
         # Node(
@@ -84,7 +84,7 @@ def generate_uav_nodes(context):
             executable='velocity_control',
             name='velocity',
             arguments=[mission_mode, mission_steps],
-            # prefix='gnome-terminal --'
+            prefix='gnome-terminal --'
         )
     ]
 
