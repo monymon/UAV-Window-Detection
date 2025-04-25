@@ -144,7 +144,7 @@ Caso nenhum erro ocorra, vá para o local em que colocou este repositório e exe
 source ./macros.bash
 setros && buildall && loadmission && loadYOLO && sim
 ```
-e verifique se o comportamento é compatível com a descrição a seguir **(não feche as janelas antes de ler a seção [**# Fechar os programas**](#fechar-os-programas)**:
+e verifique se o comportamento é compatível com a descrição a seguir **(não feche as janelas antes de ler a seção [**# Fechar os programas**](#fechar-os-programas)**):
 
 - Duas novas abas de terminal serão abertas na janela atual, além de uma nova janela:
     1. **PX4 Shell**: A aba onde o comando [`sim`](#sim) foi usado. Terá outputs como: `[velocity_control-4] [INFO] [1710362381.891866260] [px4_offboard.velocity]: FlightCheck: True`
@@ -152,7 +152,7 @@ e verifique se o comportamento é compatível com a descrição a seguir **(não
         1. **Cliente DDS**: Uma das abas frequentemente imprime a seguinte linha: `INFO  [uxrce_dds_client] time sync converged`
         2. **SITL**: A outra aba imprime mensagens que começam com algo semelhante a `[1710362261.223419] info     | ProxyClient.cpp`
     3. **Teleop**: A nova janela que apresenta vários controles de teclado e termina com "Press SPACE to arm/disarm the drone"
-- Adicionalmente, é aberta duas janelas: a interface gráfica do Gazebo e a exibição das imagens capturadas pela câmera.
+- Adicionalmente, são abertas duas janelas: a interface gráfica do Gazebo e a exibição das imagens capturadas pela câmera.
 
 **Independentemente do resultado, antes de fechar os processos abertos, prossiga para a seção [# Fechar os programas](#fechar-os-programas).**
 
@@ -212,7 +212,7 @@ Esse comando é uma função definida em [macros.bash](./macros.bash)
 
 ## Progamando missões
 
-O arquivo missions.txt contém a descrição da missão que será seguida pelo drone.
+O arquivo [mission.txt](./src/mission.txt) contém a descrição da missão que será seguida pelo drone.
 As missões são divididas em passos que podem ser comandos para o drone girar no seu eixo ou se deslocar pelas coordenadas espaciais.
 Cada passo é dividido por ";".
 
@@ -220,10 +220,11 @@ Para girar, escreva no arquivo: `turn:90`, o que faz o drone girar 90 graus para
 
 Para deslocar o drone, escreva: `go:2.0,3.0,-4.0`, o que faz o drone se deslocar 2 unidades no eixo X, 3 no eixo Y e descer 4 unidades no eixo Z.
 As componentes especificadas indicam um deslocamento relativo ao drone, e não uma coordenada específica para onde o drone vai.
+
 Por exemplo, se a missão for: `go:2.0,0.0,0.0;go:2.0,0.0,0.0`, o drone primeiro irá se deslocar 2 unidades no eixo X e depois mais 2 unidades no mesmo eixo.
 Os deslocamentos são feitos no sistema de coordenadas do mundo e não do drone.
 
-Um exemplo de arquivo de missão está nesse repositório em [`src/mission.txt`](./src/mission.txt)
+Um exemplo de arquivo de missão está nesse repositório em [src/mission.txt](./src/mission.txt)
 
 ## Estrutura do projeto
 
@@ -258,14 +259,14 @@ Mais tecnicamente, faz o *build* de todos os pacotes ROS.
 
 #### `build`
 
-Realiza o *build* apenas do pacote principal do projeto. Precisa ser executado toda vez que quiser efetivar modificações dentro de [`src/`](./src/).
+Realiza o *build* apenas do pacote principal do projeto. Precisa ser executado toda vez que quiser efetivar modificações dentro de [src/](./src/).
 Também executa [`setup`](#setup).
 
-Mais tecnicamente, faz o *build* apenas do pacote [`px4_offboard`](./src/src_codes/px4_offboard)
+Mais tecnicamente, faz o *build* apenas do pacote [px4_offboard](./src/src_codes/px4_offboard)
 
 #### `sim`
 
-Executa o script de *launch* do pacote [`px4_offboard`](./src/src_codes/px4_offboard), que por sua vez inicializa os processos necessários para rodar a simulação.
+Executa o script de *launch* do pacote [px4_offboard](./src/src_codes/px4_offboard), que por sua vez inicializa os processos necessários para rodar a simulação.
 A simulação padrão inclui um drone controlado por teclado em um *world* vazio do Gazebo.
 Porém, é possível mudar essa configuração também através deste comando com a adição da *flag* "-m", que ativa o "modo missão".
 O modo missão não possui controle por teclado, uma vez que o drone opera de forma totalmente autônoma.
@@ -293,11 +294,11 @@ conforme descrito na seção [# Problemas comuns > Erro na abertura do Gazebo](#
 
 Contém o código fonte dos *ROS nodes* e outros arquivos necessários, como a descrição da missão e as configurações da rede neural.
 
-### [install/setup.bash]
+### install/setup.bash
 
 É gerado pelo processo de build.
 O script precisa ser executado (`source install/setup.bash`, caso seu terminal seja o `bash`) em todo novo terminal que precisa interagir com programas vinculados ao projeto, como por exemplo o `rviz`.
-As funções [`setup`](#setup), [`build`](#build) e [`buildall`](#buildall) do script [`macros.bash`](./macros.bash) executam-no automaticamente.
+As funções [`setup`](#setup), [`build`](#build) e [`buildall`](#buildall) do script [macros.bash](./macros.bash) executam-no automaticamente.
 
 ### Outros arquivos gerados automaticamente
 
