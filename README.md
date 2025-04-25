@@ -1,7 +1,7 @@
 # Descrição do projeto
 
 Esse sistema executa uma simulação de controle de um drone x500 equipado com uma câmera RGBD.
-É possível controlar o drone em tempo de execução por teclado ou especificar uma missão (trajeto passando por coordenadas específicas).
+É possível controlar o drone em tempo de execução por teclado ou especificar uma missão (sequência de deslocamentos pelo espaço de simulação).
 As imagens capturadas pela câmera são eviadas para uma rede neural que identifica se há janelas e onde elas estão.
 
 # Como utilizar o projeto
@@ -52,7 +52,7 @@ até o comando `sudo apt upgrade` (inclusive) na seção `Install ROS 2 packages
 Esse processo vai demorar, mas geralmente não precisa de supervisão humana.
 3. Instale o `ros-dev-tools` presente no guia.
 
-Teste a instalação do ROS, conforme indica o tutorial em `Try some examples`.
+Teste a instalação do ROS, conforme indica o tutorial em `Try some examples` (é necessário fazer o setup do ROS, descrito logo abaixo).
 
 Depois disso, não é necessário prosseguir no guia de instalação. 
 
@@ -76,8 +76,7 @@ Para mitigar esse problema, pode-se optar por apenas utilizar a função [`setro
 
 A *toolchain* depende de alguns pacotes de Python.
 Além disso, alguns pacotes precisam de um *downgrade* 
-Entre eles, é necessário fazer o *downgrade* do pacote `setuptools` pois o `setup.py`, utilizado no processo de instalação múltiplas vezes,
-foi deprecado nas versões mais novas de `setuptools`.
+Entre eles, é necessário fazer o *downgrade* do pacote `setuptools` pois o `setup.py`, utilizado no processo de instalação múltiplas vezes, foi deprecado nas versões mais novas de `setuptools`.
 Às vezes também é necessário fazer downgrade do `empy`.
 Para garantir que isso não será um problema, faça os dois.
 Note que é necessário ter o `pip` instalado (disponível no *apt*).
@@ -111,30 +110,29 @@ sudo ldconfig /usr/local/lib/
 
 ### Instalar o PX4-Autopilot
 
-O [repositório oficial do PX4-Autopilot](https://github.com/PX4/PX4-Autopilot.git) carecia de algumas funcionalidades necessárias.
-Então este repositório utiliza uma versão customizada do repositório
+Para este projeto está sendo usada a versão v1.14 do PX4, compatível com o Gazebo Garden.
+A versão mais recente (v1.15) apresentou problemas de funcionamento relacionados à versão do Gazebo (a v1.15 é compatível com o Gazebo Harmonic).
 
-Baixar o repositório personalizado do PX4:
+Para instalar, siga o *script* abaixo:
 
 ```sh
 cd
-git clone https://github.com/felipebarichello/PX4-Autopilot-ColAvoid.git --recursive
+git clone https://github.com/PX4/PX4-Autopilot.git --branch v1.14.0 --recursive
+cd PX4-Autopilot
+bash ./Tools/setup/ubuntu.sh # Esse programa instala devidamente o PX4 com o Gazebo compatível
 ```
 
-Ele deve ser instalado na home (ou deve conter um *symlink* lá) pois o *script* de *launch* presume isso e não funcionará caso contrário.
-Alternativamente, pode-se alterar o script
-[`$REPO/src/ROS2_PX4_Offboard/px4_offboard/px4_offboard/processes.py`](./src/ROS2_PX4_Offboard/px4_offboard/px4_offboard/processes.py)
-para utilizar o caminho desejado.
-
-Em seguida, dentro do repositório, execute o seguinte *script* para instalar o PX4:
+Teste se a instalação do PX4 e Gazebo foi bem sucedida abrindo uma simulação básica:
 
 ```sh
-bash Tools/setup/ubuntu.sh
+make px4_sitl gz_x500 # Rodar esse comando dentro da pasta do PX4
 ```
 
-É normal aparecerem vários *warnings* no processo de instalação.
+Após, no mesmo terminal, espere pela mensagem: `INFO  [commander] Ready for takeoff!` e escreva no terminal "commander takeoff".
 
-### Testar a instalação
+O comportamento esperado é o drone levantar voo.
+
+### Testar o projeto
 
 Antes de prosseguir, perceba que atualmente, aparentemente para todos,
 está ocorrendo um erro na primeira vez que a simulação é executada (ver [**# Problemas comuns > O simulador abre mas está vazio**](#o-simulador-abre-mas-está-vazio))
@@ -143,7 +141,7 @@ Caso nenhum erro ocorra, vá para o local em que colocou este repositório e exe
 
 ```sh
 source ./macros.bash
-setros && buildall && remodel && loadmission && sim
+setros && buildall && loadmission && loadYOLO && sim
 ```
 e verifique se o comportamento é compatível com a descrição a seguir **(não feche as janelas antes de ler a seção [**# Fechar os programas**](#fechar-os-programas)**:
 
@@ -151,9 +149,9 @@ e verifique se o comportamento é compatível com a descrição a seguir **(não
     1. **PX4 Shell**: A aba onde o comando [`sim`](#sim) foi usado. Terá outputs como: `[velocity_control-4] [INFO] [1710362381.891866260] [px4_offboard.velocity]: FlightCheck: True`
     2. As novas abas:
         1. **Cliente DDS**: Uma das abas frequentemente imprime a seguinte linha: `INFO  [uxrce_dds_client] time sync converged`
-        2. **SITL**: A outra aba é mais colorida (se seu terminal suporta cores) e imprime mensagens que começam com algo semelhante a `[1710362261.223419] info     | ProxyClient.cpp`
+        2. **SITL**: A outra aba imprime mensagens que começam com algo semelhante a `[1710362261.223419] info     | ProxyClient.cpp`
     3. **Teleop**: A nova janela que apresenta vários controles de teclado e termina com "Press SPACE to arm/disarm the drone"
-- Adicionalmente, é aberta uma janela gráfica do Gazebo.
+- Adicionalmente, é aberta duas janelas: a interface gráfica do Gazebo e a exibição das imagens capturadas pela câmera.
 
 **Independentemente do resultado, antes de fechar os processos abertos, prossiga para a seção [# Fechar os programas](#fechar-os-programas).**
 
@@ -171,8 +169,7 @@ Caso não haja nenhum erro, prossiga para a seção [**# Estrutura do projeto**]
 
 ### O simulador abre mas está vazio
 
-Este erro se caracteriza por uma mensagem de erro em vermelho no terminal que executa o SITL
-(ver [**# Testar a instalação**](#testar-a-instalação) para identificar esse terminal).
+Este erro se caracteriza por uma mensagem de erro em vermelho no terminal que executa o SITL (ver [**# Testar a instalação**](#testar-a-instalação) para identificar esse terminal).
 O erro diz "Service call timed out. Check GZ_SIM_RESOURCE_PATH is set correctly.".
 Pode acontecer toda vez que a simulação é executada pela primeira vez.
 Deve ser resolvido fechando todos os processos e executando novamente o comando [`sim`](#sim).
@@ -215,12 +212,17 @@ Esse comando é uma função definida em [macros.bash](./macros.bash)
 ## Progamando missões
 
 O arquivo missions.txt contém a descrição da missão que será seguida pelo drone.
-O arquivo é formado por um conjunto de coordenadas.
-As coordenadas são separadas por ';' enquanto as componentes são separadas por ','.
-Cada componente (x, y e z) é um número de ponto flutuante (de preferência, uma casa decimal).
-Neste repositório há um exemplo de como deve ser o arquivo.
+As missões são divididas em passos que podem ser comandos para o drone girar no seu eixo ou se deslocar pelas coordenadas espaciais.
+Cada passo é dividido por ";".
 
-Aviso: no Gazebo o eixo z está invertido, ou seja, para o drone subir, deve-se especificar uma componente z negativa.
+Para girar, escreva no arquivo: `turn:90`, o que faz o drone girar 90 graus para a direita (você pode especificar o ângulo que quiser).
+
+Para deslocar o drone, escreva: `go:2.0,3.0,-4.0`, o que faz o drone se deslocar 2 unidades no eixo X, 3 no eixo Y e descer 4 unidades no eixo Z.
+As componentes especificadas indicam um deslocamento relativo ao drone, e não uma coordenada específica para onde o drone vai.
+Por exemplo, se a missão for: `go:2.0,0.0,0.0;go:2.0,0.0,0.0`, o drone primeiro irá se deslocar 2 unidades no eixo X e depois mais 2 unidades no mesmo eixo.
+Os deslocamentos são feitos no sistema de coordenadas do mundo e não do drone.
+
+Um exemplo de arquivo de missão está nesse repositório em [`src/mission.txt`](./src/mission.txt)
 
 ## Estrutura do projeto
 
@@ -231,9 +233,9 @@ Esta seção explica a árvore de arquivos do projeto e quais comandos são nece
 O script [macros.bash](./macros.bash) possui funções de shell que executa os principais comandos necessários para o desenvolvimento do projeto.
 
 Para utilizar os comandos nele contidos, execute `source macros.bash` em cada instância de terminal que precisa deles.
-Note que alguns deles requerem que o script [`install/setup.bash`](./install/setup.bash) tenha sido executado previamente (pode ser através do comando [`setup`](#setup)).
+Note que alguns deles requerem que o script `install/setup.bash`tenha sido executado previamente (pode ser através do comando [`setup`](#setup)).
 Alguns comandos só funcionam se o *working directory* for a raíz deste repositório, então alguns erros podem ser originados desse detalhe. 
-Abaixo, listo eles e descrevo o objetivo de cada um.
+Abaixo, segue a lista de comandos.
 
 #### `setros`
 
@@ -246,7 +248,7 @@ Executa o script `install/setup.bash` para o terminal atual.
 
 #### `buildall`
 
-O primeiro build (quando não há os diretórios [`install/`](./install/) e [`build`](./build/) na raíz do projeto).
+O primeiro build (quando não há os diretórios `install/` e `build` na raíz do projeto).
 Muitos outros comandos dependem deste ter sido executado.
 Também executa [`setup`](#setup).
 
@@ -258,33 +260,27 @@ Mais tecnicamente, faz o *build* de todos os pacotes ROS.
 Realiza o *build* apenas do pacote principal do projeto. Precisa ser executado toda vez que quiser efetivar modificações dentro de [`src/`](./src/).
 Também executa [`setup`](#setup).
 
-Mais tecnicamente, faz o *build* apenas do pacote ["px4_offboard"](./src/ROS2_PX4_Offboard/px4_offboard/)
+Mais tecnicamente, faz o *build* apenas do pacote [`px4_offboard`](./src/src_codes/px4_offboard)
 
 #### `sim`
 
-Executa todos os programas necessários para a simulação de um drone no sistema PX4/Gazebo/ROS, inclusive com controle pelo teclado.
-Na verdade, executa apenas o script de *launch* do pacote [`px4_offboard`](./src/ROS2_PX4_Offboard/px4_offboard/), que por sua vez inicializa esses processos.
+Executa o script de *launch* do pacote [`px4_offboard`](./src/src_codes/px4_offboard), que por sua vez inicializa os processos necessários para rodar a simulação.
 A simulação padrão inclui um drone controlado por teclado em um *world* vazio do Gazebo.
-Porém, é possível mudar essa configuração também através deste comando com adição de algumas *flags*:
-- uav_number: número de drones na simulação
-- spawn_configuration: caractere indicando a formação em que múltiplos drones serão gerados:
-    1. 'l' (line): drones serão gerados em linha (um do lado do outro)
-    2. 's' (square): drones serão gerados dentro de um quadrado (ex: 4 drones formam um quadrado de lado 2, 5 drones ficam dentro de um quadrado de lado 3)
-- mission_mode: caractere indicando se o drone seguirá a missão predefinida:
-    1. 't' (true): drones seguem a missão
-    2. 'f' (false): drones seguem comandos do teclado
-    
-Exemplo de simulação com 3 drones, formação em quadrado e seguindo a missão:
+Porém, é possível mudar essa configuração também através deste comando com a adição da *flag* "-m", que ativa o "modo missão".
+O modo missão não possui controle por teclado, uma vez que o drone opera de forma totalmente autônoma.
 
+Exemplo de comando chamando o modo missão:
 ```sh
-sim 3 s t
+sim -m
 ```
-
-Por padrão só um drone é gerado, a formação é em linha e o drone segue comandos do teclado.
 
 #### `loadmission`
 
 Copia o arquivo descrevendo a missão para o diretório em que o código pode acessá-lo. Deve ser executado sempre que o arquivo for modificado.
+
+#### `loadYOLO`
+
+Copia os arquivos necessários para a configuração da rede neural do YOLO. Deve ser executado sempre que forem modificados.
 
 #### `kgz`
 
@@ -292,22 +288,11 @@ Fecha todos os processos do Gazebo que estão rodando em segundo plano.
 Elimina alguns erros que podem ocorrer ao tentar abrir o Gazebo,
 conforme descrito na seção [# Problemas comuns > Erro na abertura do Gazebo](#erro-na-abertura-do-gazebo).
 
-### [mission.txt](./mission.txt)
-
-Onde as coordenadas da missão devem ser especificadas
-
 ### [src/](./src/)
 
-Contém o código fonte dos *ROS nodes*.
+Contém o código fonte dos *ROS nodes* e outros arquivos necessários, como a descrição da missão e as configurações da rede neural.
 
-### [models/](./models/)
-
-Contém os arquivos relacionados ao modelo do drone.
-Esse diretório por si só não é lido pelo Gazebo ou pelo PX4.
-Para efetivar alguma mudança feita aqui, é necessário copiar os arquivos para onde o PX4 consegue lê-los.
-A melhor forma de fazer isso é utilizando o comando `remodel`.
-
-### [install/setup.bash](./install/setup.bash)
+### [install/setup.bash]
 
 É gerado pelo processo de build.
 O script precisa ser executado (`source install/setup.bash`, caso seu terminal seja o `bash`) em todo novo terminal que precisa interagir com programas vinculados ao projeto, como por exemplo o `rviz`.
@@ -315,7 +300,8 @@ As funções [`setup`](#setup), [`build`](#build) e [`buildall`](#buildall) do s
 
 ### Outros arquivos gerados automaticamente
 
-Todos os arquivos dentro de [`build`](./build/), [`install`](./install/) e [`log`](./log/) são gerados automaticamente. Fora o `install/setup.bash`, eles geralmente não são muito úteis para uso manual.
+Todos os arquivos dentro de `build`, `install` e `log` são gerados automaticamente.
+Fora o `install/setup.bash`, eles geralmente não são muito úteis para uso manual.
 
 # Referências
 
