@@ -3,6 +3,7 @@
 Esse sistema executa uma simulação de controle de um drone x500 equipado com uma câmera RGBD.
 É possível controlar o drone em tempo de execução por teclado ou especificar uma missão (sequência de deslocamentos pelo espaço de simulação).
 As imagens capturadas pela câmera são eviadas para uma rede neural que identifica se há janelas e onde elas estão.
+No final, um arquivo de vídeo ("output.mp4") é gerado com as imagens capturadas com as janelas devidamente identificadas.
 
 # Como utilizar o projeto
 
