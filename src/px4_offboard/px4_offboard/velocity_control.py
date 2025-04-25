@@ -35,9 +35,9 @@
 __author__ = "Braden Wagstaff"
 __contact__ = "braden@arkelectron.com"
 
-from .capture import detect_objects
+from .cnn_processing import detect_objects
 import cv2
-from .camera_view import Camera
+from .capture_image import Camera
 from geometry_msgs.msg import Twist, Vector3
 import math
 import numpy as np
@@ -504,7 +504,7 @@ def main(args=None):
 
     rclpy.init(args=args)
 
-    mission_mode = True if sys.argv[1] == 't' else False
+    mission_mode = True if sys.argv[1] == 'true' else False
     mission_steps = sys.argv[2].strip("\n").split(";")
 
     offboard_control = OffboardControl(mission_mode, mission_steps)

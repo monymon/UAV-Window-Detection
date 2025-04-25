@@ -42,10 +42,6 @@ from launch.substitutions import LaunchConfiguration
 import os
 
 
-TRUE = 't'
-FALSE = 'f'
-
-
 def generate_uav_nodes(context):
     mission_mode = LaunchConfiguration('mission_mode').perform(context)
 
@@ -53,7 +49,7 @@ def generate_uav_nodes(context):
     mission_file_path = os.path.join(current_directory, 'mission.txt')
     mission_file = open(mission_file_path, "r")
 
-    if mission_mode == TRUE:
+    if mission_mode == 'true':
         mission_steps = mission_file.readline()
     else:
         mission_steps = "go:0.0,0.0,0.0"
@@ -76,7 +72,7 @@ def generate_uav_nodes(context):
             namespace='px4_offboard',
             executable='teleoperator',
             name='teleoperator',
-            # prefix='gnome-terminal --'
+            prefix='gnome-terminal --' if mission_mode != 'true' else ''
         ),
         Node(
             package='px4_offboard',
@@ -84,7 +80,7 @@ def generate_uav_nodes(context):
             executable='velocity_control',
             name='velocity',
             arguments=[mission_mode, mission_steps],
-            prefix='gnome-terminal --'
+            # prefix='gnome-terminal --'
         )
     ]
 
@@ -92,7 +88,7 @@ def generate_uav_nodes(context):
 def generate_launch_description():
     mission_mode_argument = DeclareLaunchArgument(
         'mission_mode',
-        default_value=FALSE
+        default_value='false'
     )
 
     return LaunchDescription([

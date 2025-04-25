@@ -25,7 +25,11 @@ function loadYOLO() {
 }
 
 function sim() {
-    local mission_mode=${1:-f}
+    local mission_mode="false"
+
+    if [[ "$1" == "-m" ]]; then
+        mission_mode="true"
+    fi
 
     ros2 launch px4_offboard offboard_velocity_control.launch.py \
         mission_mode:=$mission_mode
