@@ -63,20 +63,12 @@ MAX_YAW_SPEED = 0.3
 MISSION_TOLERANCE = 0.25
 ANGLE_TOLERANCE = 5
 
-HALF_PI = 1.570796325
-
-N = 0
-E = 90
-S = 180
-W = 270
-
 
 class OffboardControl(Node):
 
     def __init__(self, mission_mode, mission_steps):
         super().__init__('minimal_publisher')
 
-        self.uav_direction = 'N'
         self.mission_mode = mission_mode
         self.mission_steps = mission_steps
         self.mission_index = 0
