@@ -28,7 +28,7 @@ Certifique-se de que a versão de `python3` resolvido pelo `PATH` é o Python 3.
 python3 --version
 ```
 
-Caso não seja, instale o Python 3.10 e troque o Python que é resolvido de `python3` no `PATH` 
+Caso não seja, instale o Python 3.10 e troque o Python que é resolvido de `python3` no `PATH`
 
 ```sh
 # Esse repositório tem várias versões de Python
@@ -135,10 +135,10 @@ O comportamento esperado é o drone levantar voo.
 
 ### Testar o projeto
 
-Antes de prosseguir, perceba que atualmente, aparentemente para todos,
-está ocorrendo um erro na primeira vez que a simulação é executada (ver [**# Problemas comuns > O simulador abre mas está vazio**](#o-simulador-abre-mas-está-vazio))
-
-Caso nenhum erro ocorra, vá para o local em que colocou este repositório e execute os comandos:
+Antes de testar o projeto de fato, certifique-se de duas coisas no arquivo de código [`processes.py`](./src/src_codes/px4_offboard/processes.py):
+- A constante `PX4_PATH` contém o caminho correto até o diretório do PX4
+- A constante `WORLD_NAME` ou é "default" ou é "building".
+Se for "building", certifique-se de copiar os arquivos da pasta [`worlds`](./worlds/) e colar na pasta correspondente do repositório do PX4: `seu_px4/Tools/simulation/gz/worlds`
 
 ```sh
 source ./macros.bash
@@ -275,6 +275,9 @@ Exemplo de comando chamando o modo missão:
 ```sh
 sim -m
 ```
+
+Para salvar o vídeo gravado pelo drone, é necessário selecionar a janela que exibe as imagens capturadas e pressionar a tecla "q".
+Isso desliga a câmera e salva o vídeo.
 
 #### `loadmission`
 
