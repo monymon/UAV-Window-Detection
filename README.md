@@ -177,16 +177,6 @@ Deve ser resolvido fechando todos os processos e executando novamente o comando 
 
 ### Ao tentar simular, erros em vermelho acusando algo no CMakeLists.txt
 
-É um problema causado pelo repositório oficial do Github.
-Para solucionar, deve-se criar uma *tag* de *commit* no *commit* do repositório do `PX4-Autopilot-ColAvoid`:
-
-```sh
-git tag v1.14.0-dev
-```
-
-Daí para frente, lembre-se de, em todo novo *commit* do repositório, adicionar a *tag* e fazer um `git push --all` em vez de um `git push` ordinário.
-Também pode-se fazer um `git push --tags` para fazer o *push* apenas das *tags*
-
 ### ninja: error: unknown target
 
 Caso o erro seja algo semelhante a `ninja: error: unknown target`, tente executar os seguintes comandos no repositório do PX4:
@@ -208,7 +198,7 @@ kgz
 ```
 
 para eliminar os processos do Gazebo.
-Esse comando é uma função definida em [macros.bash](./macros.bash)
+Esse comando é uma função definida em [macros.bash](./maacros.bash)
 
 ## Progamando missões
 

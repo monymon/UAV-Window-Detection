@@ -414,6 +414,7 @@ class OffboardControl(Node):
         cos_yaw = np.cos(self.true_yaw)
         sin_yaw = np.sin(self.true_yaw)
 
+        # rotation matrix
         body_error_x = error_N * cos_yaw + error_E * sin_yaw
         body_error_y = -error_N * sin_yaw + error_E * cos_yaw
 
