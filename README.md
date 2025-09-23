@@ -17,8 +17,7 @@ A documentação oficial recomenda que esse seja o sistema utilizado.
 Sempre que houver um problema, certifique-se de que a seção [**# Problemas comuns**](#problemas-comuns) não cobre o seu erro como um dos primeiros passos de troubleshooting.
 
 Recomenda-se a utilização de um sistema limpo e destrutível para o desenvolvimento do projeto, já que alguns passos de instalação neste guia podem ser destrutivos.
-Uma alternativa é utilizar uma máquina virual, mas a divisão de recursos pode ser um problema.
-Caso queira utilizar mas nunca tenha instalado uma máquina virtual anteriormente, recomendo assistir a [este curto vídeo](https://www.youtube.com/watch?v=nvdnQX9UkMY).
+Uma alternativa é utilizar uma máquina virual.
 
 ### Versão correta do Python
 
@@ -59,25 +58,25 @@ Depois disso, não é necessário prosseguir no guia de instalação.
 
 ### Setup do ROS
 
-Muitos programas do ecossistema do ROS necessitam que o *script* `/opt/ros/humble/setup.bash` tenha sido executado.
+Muitos programas do ecossistema do ROS necessitam que o script `/opt/ros/humble/setup.bash` tenha sido executado.
 Por isso, você teria que executá-lo em grande parte dos terminais abertos.
-Para evitar essa inconveniência, pode-se adicionar a execução desse *script* ao `~/.bashrc`, um script que roda toda vez que um novo terminal bash é aberto.
+Para evitar essa inconveniência, pode-se adicionar a execução desse script ao `~/.bashrc`, um script que roda toda vez que um novo terminal bash é aberto.
 Para isso, execute o comando a seguir:
 
 ```bash
 echo source /opt/ros/humble/setup.bash >> ~/.bashrc
 ```
 
-Agora basta abrir um novo terminal ou executar o *script* no terminal atual.
+Agora basta abrir um novo terminal ou executar o script no terminal atual.
 
 Lembrando que essa adição ao `~/.bashrc` pode causar lentidão ao abrir uma nova instância do terminal.
-Para mitigar esse problema, pode-se optar por apenas utilizar a função [`setros`](#setros) do [`macros.bash`](./macros.bash), explicado mais adiante na seção [# macros.bash](#macrosbash).
+Para mitigar esse problema, pode-se optar por apenas utilizar a função [`setros`](#setros) do [`macros.bash`](./macros.bash), explicado mais adiante na seção [**# macros.bash**](#macrosbash).
 
 ### Pacotes Python
 
-A *toolchain* depende de alguns pacotes de Python.
-Além disso, alguns pacotes precisam de um *downgrade* 
-Entre eles, é necessário fazer o *downgrade* do pacote `setuptools` pois o `setup.py`, utilizado no processo de instalação múltiplas vezes, foi deprecado nas versões mais novas de `setuptools`.
+A toolchain depende de alguns pacotes de Python.
+Além disso, alguns pacotes precisam de um downgrade.
+Entre eles, é necessário fazer o downgrade do pacote `setuptools` pois o `setup.py`, utilizado no processo de instalação múltiplas vezes, foi deprecado nas versões mais novas de `setuptools`.
 Às vezes também é necessário fazer downgrade do `empy`.
 Para garantir que isso não será um problema, faça os dois.
 Note que é necessário ter o `pip` instalado (disponível no *apt*).
@@ -93,7 +92,7 @@ sudo apt install python3-gz-msgs10 python3-gz-transport13 # Pacotes de integraç
 ### Micro DDS
 
 Este é o programa que permite a comunicação do PX4 com o ROS.
-Ele pode ser instalado onde quiser, mas o *script* abaixo o instala na *home*.
+Ele pode ser instalado onde quiser, mas o script abaixo o instala na home.
 Este processo demorará, mas geralmente não precisa de supervisão humana até o seu final.
 No final, ele poderá pedir uma senha.
 
@@ -114,14 +113,19 @@ sudo ldconfig /usr/local/lib/
 Para este projeto está sendo usada a versão v1.14 do PX4, compatível com o Gazebo Garden.
 A versão mais recente (v1.15) apresentou problemas de funcionamento relacionados à versão do Gazebo (a v1.15 é compatível com o Gazebo Harmonic).
 
-Para instalar, siga o *script* abaixo:
+Para instalar, siga o script abaixo:
 
 ```sh
 cd
 git clone https://github.com/PX4/PX4-Autopilot.git --branch v1.14.0 --recursive
 cd PX4-Autopilot
-bash ./Tools/setup/ubuntu.sh # Esse programa instala devidamente o PX4 com o Gazebo compatível
+bash ./Tools/setup/ubuntu.sh # Isso instala devidamente o PX4 com o Gazebo compatível
 ```
+
+Ele deve ser instalado na home (ou deve conter um symlink lá) pois o script de launch presume isso e não funcionará caso contrário.
+Alternativamente, pode-se alterar o script
+[`processes.py`](./src/src_codes/px4_offboard/processes.py)
+para utilizar o caminho desejado.
 
 Teste se a instalação do PX4 e Gazebo foi bem sucedida abrindo uma simulação básica:
 
@@ -140,11 +144,14 @@ Antes de testar o projeto de fato, certifique-se de duas coisas no arquivo de c�
 - A constante `WORLD_NAME` ou é "default" ou é "building".
 Se for "building", certifique-se de copiar os arquivos da pasta [`worlds`](./worlds/) e colar na pasta correspondente do repositório do PX4: `seu_px4/Tools/simulation/gz/worlds`
 
+Após, vá para o local em que colocou este repositório e execute os comandos:
+
 ```sh
 source ./macros.bash
 setros && buildall && loadmission && loadYOLO && sim
 ```
-e verifique se o comportamento é compatível com a descrição a seguir **(não feche as janelas antes de ler a seção [**# Fechar os programas**](#fechar-os-programas)**):
+
+e verifique se o comportamento é compatível com a descrição a seguir **(não feche as janelas antes de ler a seção [**# Fechar os programas**](#fechar-os-programas))**:
 
 - Duas novas abas de terminal serão abertas na janela atual, além de uma nova janela:
     1. **PX4 Shell**: A aba onde o comando [`sim`](#sim) foi usado. Terá outputs como: `[velocity_control-4] [INFO] [1710362381.891866260] [px4_offboard.velocity]: FlightCheck: True`
@@ -170,12 +177,10 @@ Caso não haja nenhum erro, prossiga para a seção [**# Estrutura do projeto**]
 
 ### O simulador abre mas está vazio
 
-Este erro se caracteriza por uma mensagem de erro em vermelho no terminal que executa o SITL (ver [**# Testar a instalação**](#testar-a-instalação) para identificar esse terminal).
+Este erro se caracteriza por uma mensagem de erro em vermelho no terminal que executa o SITL (ver [**# Testar o projeto**](#testar-o-projeto) para identificar esse terminal).
 O erro diz "Service call timed out. Check GZ_SIM_RESOURCE_PATH is set correctly.".
 Pode acontecer toda vez que a simulação é executada pela primeira vez.
 Deve ser resolvido fechando todos os processos e executando novamente o comando [`sim`](#sim).
-
-### Ao tentar simular, erros em vermelho acusando algo no CMakeLists.txt
 
 ### ninja: error: unknown target
 
@@ -198,7 +203,7 @@ kgz
 ```
 
 para eliminar os processos do Gazebo.
-Esse comando é uma função definida em [macros.bash](./maacros.bash)
+Esse comando é uma função definida em [macros.bash](./macros.bash).
 
 ## Progamando missões
 
@@ -214,7 +219,7 @@ As componentes especificadas indicam um deslocamento relativo ao drone, e não u
 Por exemplo, se a missão for: `go:2.0,0.0,0.0;go:2.0,0.0,0.0`, o drone primeiro irá se deslocar 2 unidades no eixo X e depois mais 2 unidades no mesmo eixo.
 Os deslocamentos são feitos no sistema de coordenadas do mundo e não do drone.
 
-Um exemplo de arquivo de missão está nesse repositório em [src/mission.txt](./src/mission.txt)
+Um exemplo de arquivo de missão está nesse repositório em [src/mission.txt](./src/mission.txt).
 
 ## Estrutura do projeto
 
@@ -222,17 +227,17 @@ Esta seção explica a árvore de arquivos do projeto e quais comandos são nece
 
 ### [macros.bash](./macros.bash)
 
-O script [macros.bash](./macros.bash) possui funções de shell que executa os principais comandos necessários para o desenvolvimento do projeto.
+O script [macros.bash](./macros.bash) possui funções de shell que executam os principais comandos necessários para o desenvolvimento do projeto.
 
-Para utilizar os comandos nele contidos, execute `source macros.bash` em cada instância de terminal que precisa deles.
-Note que alguns deles requerem que o script `install/setup.bash`tenha sido executado previamente (pode ser através do comando [`setup`](#setup)).
-Alguns comandos só funcionam se o *working directory* for a raíz deste repositório, então alguns erros podem ser originados desse detalhe. 
-Abaixo, segue a lista de comandos.
+Para utilizar os comandos nele contidos, execute `source macros.bash` em cada instância de terminal que precise deles.
+Note que alguns deles requerem que o script [`install/setup.bash`](./install/setup.bash) tenha sido executado previamente (pode ser através do comando [`setup`](#setup)).
+Alguns comandos só funcionam se o working directory for a raíz deste repositório, então alguns erros podem ser originados desse detalhe. 
+Abaixo, está a descrição de cada um.
 
 #### `setros`
 
 Executa o script `source /opt/ros/humble/setup.bash` para o terminal atual.
-Muitos programas do ecossistema do ROS necessitam que esse *script* tenha sido executado.
+Muitos programas do ecossistema do ROS necessitam que esse script tenha sido executado.
 
 #### `setup`
 
@@ -240,25 +245,25 @@ Executa o script `install/setup.bash` para o terminal atual.
 
 #### `buildall`
 
-O primeiro build (quando não há os diretórios `install/` e `build` na raíz do projeto).
+O primeiro build (quando não há os diretórios [`install/`](./install/) e [`build/`](./build/) na raíz do projeto).
 Muitos outros comandos dependem deste ter sido executado.
 Também executa [`setup`](#setup).
 
-Mais tecnicamente, faz o *build* de todos os pacotes ROS.
+Mais tecnicamente, faz o build de todos os pacotes ROS.
 Às vezes pode ser a solução para algum problema se estiver relacionado com um pacote que não seja o principal.
 
 #### `build`
 
-Realiza o *build* apenas do pacote principal do projeto. Precisa ser executado toda vez que quiser efetivar modificações dentro de [src/](./src/).
+Realiza o build apenas do pacote principal do projeto. Precisa ser executado toda vez que quiser efetivar modificações dentro de [`src/`](./src/).
 Também executa [`setup`](#setup).
 
-Mais tecnicamente, faz o *build* apenas do pacote [px4_offboard](./src/src_codes/px4_offboard)
+Mais tecnicamente, faz o build apenas do pacote [`px4_offboard`](./src/src_codes/px4_offboard).
 
 #### `sim`
 
-Executa o script de *launch* do pacote [px4_offboard](./src/src_codes/px4_offboard), que por sua vez inicializa os processos necessários para rodar a simulação.
-A simulação padrão inclui um drone controlado por teclado em um *world* vazio do Gazebo.
-Porém, é possível mudar essa configuração também através deste comando com a adição da *flag* "-m", que ativa o "modo missão".
+Executa o script de launch do pacote [`px4_offboard/`](./src/src_codes/px4_offboard), que por sua vez inicializa os processos necessários para rodar a simulação.
+A simulação padrão inclui um drone controlado por teclado em um world vazio do Gazebo.
+Porém, é possível mudar essa configuração também através deste comando com a adição da flag "-m", que ativa o "modo missão".
 O modo missão não possui controle por teclado, uma vez que o drone opera de forma totalmente autônoma.
 
 Exemplo de comando chamando o modo missão:
@@ -285,7 +290,13 @@ conforme descrito na seção [# Problemas comuns > Erro na abertura do Gazebo](#
 
 ### [src/](./src/)
 
-Contém o código fonte dos *ROS nodes* e outros arquivos necessários, como a descrição da missão e as configurações da rede neural.
+Contém o código fonte dos ROS nodes e outros arquivos necessários, como a descrição da missão e as configurações da rede neural.
+
+### [worlds/](./worlds/)
+
+Contém os arquivos relacionados ao modelo do mundo customizado.
+Esse diretório por si só não é lido pelo Gazebo ou pelo PX4.
+Para efetivar alguma mudança feita aqui, é necessário copiar os arquivos para onde o PX4 consegue lê-los (explicado em [**# Testar o projeto**](#testar-o-projeto)).
 
 ### install/setup.bash
 
