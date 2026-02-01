@@ -5,6 +5,8 @@ Esse sistema executa uma simulação de controle de um drone x500 equipado com u
 As imagens capturadas pela câmera são eviadas para uma rede neural que identifica se há janelas e onde elas estão.
 No final, um arquivo de vídeo ("output.mp4") é gerado com as imagens capturadas com as janelas devidamente identificadas.
 
+<img src="Imgs/img_drone_pov.png" width="400">
+
 # Como utilizar o projeto
 
 ## Configuração da toolchain
