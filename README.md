@@ -7,7 +7,7 @@ No final, um arquivo de vídeo ("output.mp4") é gerado com as imagens capturada
 
 <p align="center">
   <img src="Imgs/img_simulacao.png" width="300">
-  <img src="Imgs/img_drone_pov.png" width="300">
+  <img src="Imgs/img_drone_pov.png" width="310">
 </p>
 
 # Como utilizar o projeto
